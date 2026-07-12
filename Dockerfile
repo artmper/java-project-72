@@ -8,4 +8,4 @@ WORKDIR /java-project-72/app
 
 RUN ./gradlew shadowJar --no-daemon
 
-CMD ["java", "-jar", "app/build/libs/app-1.0-SNAPSHOT-all.jar"]
+CMD ["java", "-jar", "build/libs/app-1.0-SNAPSHOT-all.jar"]
