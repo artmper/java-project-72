@@ -15,12 +15,12 @@ repositories {
 }
 
 dependencies {
-    implementation("io.javalin:javalin:6.1.3")
-    implementation("io.javalin:javalin-rendering:6.1.3")
-    implementation("org.slf4j:slf4j-simple:2.0.7")
-    implementation("gg.jte:jte:3.1.9")
-    implementation("com.h2database:h2:2.2.220")
-    implementation("com.zaxxer:HikariCP:5.0.1")
+    implementation("io.javalin:javalin:6.7.0")
+    implementation("io.javalin:javalin-rendering:6.7.0")
+    implementation("org.slf4j:slf4j-simple:2.0.17")
+    implementation("gg.jte:jte:3.2.4")
+    implementation("com.h2database:h2:2.3.232")
+    implementation("com.zaxxer:HikariCP:7.0.2")
     implementation("org.postgresql:postgresql:42.7.4")
 
     compileOnly("org.projectlombok:lombok:1.18.46")
