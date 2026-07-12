@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class App {
     public static void main(String[] args) throws Exception {
         Javalin app = getApp();
-        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "7070"));
+        int port = getPort();
 
         app.get(NamedRoutes.rootPath(), ctx -> {
             ctx.result("Hello, World!");
@@ -28,7 +28,8 @@ public class App {
 
     public static Javalin getApp() throws Exception {
         var hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(getDatabaseUrl());
+        String jdbcUrl = getDatabaseUrl();
+        hikariConfig.setJdbcUrl(jdbcUrl);
 
         var dataSource = new HikariDataSource(hikariConfig);
         String sql;
@@ -53,5 +54,10 @@ public class App {
     private static String getDatabaseUrl() {
         return System.getenv().getOrDefault("DATABASE_URL",
                 "jdbc:h2:mem:hexlet_javalin;DB_CLOSE_DELAY=-1");
+    }
+
+    private static int getPort() {
+        return Integer.parseInt(System.getenv()
+                .getOrDefault("PORT", "7070"));
     }
 }

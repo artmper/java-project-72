@@ -1,8 +1,10 @@
 FROM gradle:8.12.1-jdk21
 
-WORKDIR /app
+WORKDIR /java-project-72
 
 COPY . .
+
+WORKDIR /java-project-72/app
 
 RUN ./gradlew shadowJar --no-daemon
 
