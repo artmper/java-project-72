@@ -11,12 +11,14 @@ import io.javalin.Javalin;
 import io.javalin.rendering.template.JavalinJte;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLException;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class App {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException, SQLException {
         Javalin app = getApp();
         int port = getPort();
 
@@ -27,7 +29,7 @@ public class App {
         app.start(port);
     }
 
-    public static Javalin getApp() throws Exception {
+    public static Javalin getApp() throws IOException, SQLException {
         var hikariConfig = new HikariConfig();
         String jdbcUrl = getDatabaseUrl();
         hikariConfig.setJdbcUrl(jdbcUrl);
