@@ -37,6 +37,7 @@ application {
 
 jte {
     contentType.set(gg.jte.ContentType.Html)
+    sourceDirectory.set(file("src/main/resources/templates/jte").toPath())
     generate()
 }
 
