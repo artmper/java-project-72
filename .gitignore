@@ -1,9 +1,14 @@
+# Gradle
 .gradle/
 **/build/
 .kotlin/
+
+# Idea
 .idea/
 *.iml
 *.iws
 *.ipr
 out/
-.scannerwork/
+
+# Jte
+app/jte-classes/

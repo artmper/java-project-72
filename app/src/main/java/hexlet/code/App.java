@@ -5,6 +5,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.resolve.ResourceCodeResolver;
+import hexlet.code.controller.RootController;
+import hexlet.code.controller.UrlsController;
 import hexlet.code.repository.BaseRepository;
 import hexlet.code.util.NamedRoutes;
 import io.javalin.Javalin;
@@ -22,9 +24,11 @@ public class App {
         Javalin app = getApp();
         int port = getPort();
 
-        app.get(NamedRoutes.rootPath(), ctx -> {
-            ctx.result("Hello, World!");
-        });
+        app.get(NamedRoutes.rootPath(), RootController::index);
+
+        app.get(NamedRoutes.urlsPath(), UrlsController::index);
+        app.get(NamedRoutes.urlPath("{id}"), UrlsController::show);
+        app.post(NamedRoutes.urlsPath(), UrlsController::create);
 
         app.start(port);
     }
@@ -68,6 +72,7 @@ public class App {
         ClassLoader classLoader = App.class.getClassLoader();
         ResourceCodeResolver codeResolver = new ResourceCodeResolver("templates/jte", classLoader);
         TemplateEngine templateEngine = TemplateEngine.create(codeResolver, ContentType.Html);
+
         return templateEngine;
     }
 }
