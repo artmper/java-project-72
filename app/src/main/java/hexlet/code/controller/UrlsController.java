@@ -56,11 +56,11 @@ public class UrlsController {
             var newUrl = new Url(name, createdAt);
             UrlRepository.save(newUrl);
 
-            ctx.sessionAttribute("flash", "Страница успешно добавлена");
+            ctx.sessionAttribute("flash", "Страница успешно добавлена!");
             ctx.redirect(NamedRoutes.urlPath(newUrl.getId()));
         } catch (Exception e) {
             var page = new MainPage();
-            page.setFlash("Некорректный URL");
+            page.setFlash("Некорректный URL!");
 
             ctx.status(422);
             ctx.render("index.jte", model("page", page));

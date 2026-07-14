@@ -4,13 +4,13 @@
 
 @template.layout.page(
     content = @`
-        <h1 class="display-3 mb-3">Сайты</h1>
+        <h1 class="display-4 mb-3">Все сайты</h1>
         <table class="table table-hover table-bordered" data-test="urls">
             <thead>
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Имя</th>
-                <th scope="col">Дата создания</th>
+                <th scope="col">Дата добавления</th>
                 <th scope="col">Код ответа</th>
             </tr>
             </thead>

@@ -18,22 +18,17 @@
         <title>PageAnalyzer</title>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Анализатор страниц</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключатель навигации">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="${NamedRoutes.rootPath()}">Главная</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="${NamedRoutes.urlsPath()}">Сайты</a>
-                        </li>
-                    </ul>
-                </div>
+        <nav class="navbar navbar-dark bg-dark mb-3">
+            <div class="container-fluid d-flex justify-content-start align-items-center">
+                <a class="navbar-brand " href="${NamedRoutes.rootPath()}">Анализатор страниц</a>
+                <ul class="navbar-nav d-flex flex-row gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="${NamedRoutes.rootPath()}">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="${NamedRoutes.urlsPath()}">Все сайты</a>
+                    </li>
+                </ul>
             </div>
         </nav>
         <main class="container">

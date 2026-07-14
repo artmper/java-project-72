@@ -24,12 +24,6 @@ public class App {
         Javalin app = getApp();
         int port = getPort();
 
-        app.get(NamedRoutes.rootPath(), RootController::index);
-
-        app.get(NamedRoutes.urlsPath(), UrlsController::index);
-        app.get(NamedRoutes.urlPath("{id}"), UrlsController::show);
-        app.post(NamedRoutes.urlsPath(), UrlsController::create);
-
         app.start(port);
     }
 
@@ -52,10 +46,18 @@ public class App {
 
         BaseRepository.dataSource = dataSource;
 
-        return Javalin.create(config -> {
+        var app = Javalin.create(config -> {
             config.bundledPlugins.enableDevLogging();
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
+
+        app.get(NamedRoutes.rootPath(), RootController::index);
+
+        app.get(NamedRoutes.urlsPath(), UrlsController::index);
+        app.get(NamedRoutes.urlPath("{id}"), UrlsController::show);
+        app.post(NamedRoutes.urlsPath(), UrlsController::create);
+
+        return app;
     }
 
     private static String getDatabaseUrl() {
