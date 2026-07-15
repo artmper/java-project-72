@@ -1,5 +1,6 @@
-package hexlet.code;
+package hexlet.code.controller;
 
+import hexlet.code.App;
 import hexlet.code.model.Url;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
@@ -17,7 +18,7 @@ import io.javalin.testtools.JavalinTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AppTest {
+public class UrlsControllerTest {
     private Javalin app;
 
     @BeforeEach
@@ -29,10 +30,10 @@ public class AppTest {
     @Test
     public void testMainPage() {
         JavalinTest.test(app, (server, client) -> {
-           var response = client.get(NamedRoutes.rootPath());
+            var response = client.get(NamedRoutes.rootPath());
 
-           assertThat(response.code()).isEqualTo(200);
-           assertThat(response.body().string()).contains("Анализатор страниц");
+            assertThat(response.code()).isEqualTo(200);
+            assertThat(response.body().string()).contains("Анализатор страниц");
         });
     }
 
@@ -70,7 +71,7 @@ public class AppTest {
     }
 
     @Test
-    public void testCreateUrl() throws SQLException {
+    public void testCreateUrl() {
         JavalinTest.test(app, (server, client) -> {
             var requestBody = "url=https://google.com";
             var response = client.post(NamedRoutes.urlsPath(), requestBody);

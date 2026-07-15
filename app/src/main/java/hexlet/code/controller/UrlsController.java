@@ -4,6 +4,8 @@ import hexlet.code.dto.MainPage;
 import hexlet.code.dto.urls.UrlPage;
 import hexlet.code.dto.urls.UrlsPage;
 import hexlet.code.model.Url;
+import hexlet.code.model.UrlCheck;
+import hexlet.code.repository.UrlCheckRepository;
 import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
 
@@ -15,14 +17,18 @@ import java.net.URI;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
 public class UrlsController {
     public static void index(Context ctx) throws SQLException {
         List<Url> urls = UrlRepository.getEntities();
-        var page = new UrlsPage(urls);
+
+        Map<Long, UrlCheck> lastChecks = UrlCheckRepository.getLastCheckForUrls();
+        var page = new UrlsPage(urls, lastChecks);
 
         ctx.render("urls/index.jte", model("page", page));
     }
@@ -31,14 +37,17 @@ public class UrlsController {
         var id = ctx.pathParamAsClass("id", Long.class).get();
         var url = UrlRepository.find(id)
                 .orElseThrow(() -> new NotFoundResponse("Entity with id = " + id + " not found"));
-        var page = new UrlPage(url);
+
+        List<UrlCheck> checks = UrlCheckRepository.findByUrlId(id);
+
+        var page = new UrlPage(url, checks);
         String flash = ctx.consumeSessionAttribute("flash");
         page.setFlash(flash);
 
         ctx.render("urls/show.jte", model("page", page));
     }
 
-    public static void create(Context ctx) throws SQLException {
+    public static void create(Context ctx) {
         try {
             var urlString = ctx.formParamAsClass("url", String.class).get();
             var uri = new URI(urlString);

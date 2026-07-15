@@ -1,4 +1,5 @@
 @import hexlet.code.dto.urls.UrlPage
+@import hexlet.code.util.StringUtil
 @param UrlPage page
 
 @template.layout.page(
@@ -34,18 +35,20 @@
                     <th>h1</th>
                     <th>title</th>
                     <th>description</th>
-                    <th>Дата добавления</th>
+                    <th>Дата проверки</th>
                 </tr>
             </thead>
             <tbody>
+                @for (var check : page.getChecks())
                 <tr>
-                    <td>1</td>
-                    <td>200</td>
-                    <td>...</td>
-                    <td>...</td>
-                    <td>...</td>
-                    <td>2024-01-01</td>
+                    <td>${check.getId()}</td>
+                    <td>${check.getStatusCode()}</td>
+                    <td>${check.getH1()}</td>
+                    <td>${check.getTitle()}</td>
+                    <td>${StringUtil.limitText(check.getDescription())}</td>
+                    <td>${check.getCreatedAt().toString()}</td>
                 </tr>
+                @endfor
             </tbody>
         </table>
     `,

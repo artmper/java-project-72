@@ -10,7 +10,7 @@
             <tr>
                 <th scope="col">ID</th>
                 <th scope="col">Имя</th>
-                <th scope="col">Дата добавления</th>
+                <th scope="col">Дата проверки</th>
                 <th scope="col">Код ответа</th>
             </tr>
             </thead>
@@ -20,8 +20,21 @@
                     <tr>
                         <th scope="row">${url.getId()}</th>
                         <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
-                        <td>${url.getCreatedAt().toString()}</td>
-                        <td></td>
+                        <td>
+                            !{var lastCheck = page.getLastChecks().get(url.getId());}
+                            @if (lastCheck != null)
+                                ${lastCheck.getCreatedAt().toString()}
+                            @else
+                                —
+                            @endif
+                        </td>
+                        <td>
+                            @if (lastCheck != null)
+                                ${lastCheck.getStatusCode()}
+                            @else
+                                —
+                            @endif
+                        </td>
                     </tr>
                 @endfor
             @endif

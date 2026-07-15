@@ -1,7 +1,19 @@
+DROP TABLE IF EXISTS url_checks;
 DROP TABLE IF EXISTS urls;
 
 CREATE TABLE urls (
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL,
-    createdAt TIMESTAMP
+    created_at TIMESTAMP
 );
+
+CREATE TABLE url_checks (
+    id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    status_code INT,
+    title VARCHAR(255),
+    h1 VARCHAR(255),
+    description TEXT,
+    url_id INT NOT NULL,
+    created_at TIMESTAMP,
+    FOREIGN KEY (url_id) REFERENCES urls (id) ON DELETE CASCADE
+)
