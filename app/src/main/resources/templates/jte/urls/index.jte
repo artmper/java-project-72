@@ -18,16 +18,17 @@
             @if (page != null && page.getUrls() != null)
                 @for (var url : page.getUrls())
                     <tr>
+                        !{var lastChecks = page.getLastChecks();}
                         <th scope="row">${url.getId()}</th>
                         <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
                         <td>
-                            @if (page.getLastChecks() != null)
-                            ${page.getLastChecks().get(url.getId()).getCreatedAt().toString()}
+                            @if (lastChecks != null && lastChecks.get(url.getId()) != null)
+                                ${lastChecks.get(url.getId()).getCreatedAt().toString()}
                             @endif
                         </td>
                         <td>
-                            @if (page.getLastChecks() != null)
-                            ${page.getLastChecks().get(url.getId()).getStatusCode()}
+                            @if (lastChecks != null && lastChecks.get(url.getId()) != null)
+                                ${lastChecks.get(url.getId()).getStatusCode()}
                             @endif
                         </td>
                     </tr>
