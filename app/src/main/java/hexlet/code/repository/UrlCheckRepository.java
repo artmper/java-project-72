@@ -61,8 +61,15 @@ public class UrlCheckRepository extends BaseRepository {
     }
 
     public static Map<Long, UrlCheck> getLastCheckForUrls() throws SQLException {
-        var sql = "SELECT DISTINCT ON (url_id) * " +
-                "FROM url_checks ORDER BY url_id, created_at DESC";
+        var sql = """
+            SELECT c.*
+            FROM url_checks c
+            INNER JOIN (
+                SELECT url_id, MAX(created_at) AS max_date
+                FROM url_checks
+                GROUP BY url_id
+            ) latest ON c.url_id = latest.url_id AND c.created_at = latest.max_date
+            """;
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
             var rs = stmt.executeQuery();

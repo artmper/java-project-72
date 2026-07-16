@@ -16,9 +16,9 @@
             </thead>
             <tbody>
             @if (page != null && page.getUrls() != null)
+                !{var lastChecks = page.getLastChecks();}
                 @for (var url : page.getUrls())
                     <tr>
-                        !{var lastChecks = page.getLastChecks();}
                         <th scope="row">${url.getId()}</th>
                         <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
                         <td>

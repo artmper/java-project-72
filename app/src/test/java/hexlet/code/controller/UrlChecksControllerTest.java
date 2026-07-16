@@ -64,7 +64,7 @@ public class UrlChecksControllerTest {
 
             var checks = UrlCheckRepository.findByUrlId(urlId);
             assertThat(checks).hasSize(1);
-            UrlCheck check = checks.get(0);
+            UrlCheck check = checks.getFirst();
             assertThat(check.getStatusCode()).isEqualTo(200);
             assertThat(check.getTitle()).isEqualTo("Test Title");
             assertThat(check.getH1()).isEqualTo("Test H1");
