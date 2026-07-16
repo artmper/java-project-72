@@ -24,15 +24,11 @@
                             !{var lastCheck = page.getLastChecks().get(url.getId());}
                             @if (lastCheck != null)
                                 ${lastCheck.getCreatedAt().toString()}
-                            @else
-                                —
                             @endif
                         </td>
                         <td>
                             @if (lastCheck != null)
                                 ${lastCheck.getStatusCode()}
-                            @else
-                                —
                             @endif
                         </td>
                     </tr>
