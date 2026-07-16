@@ -4,7 +4,7 @@ public class StringUtil {
     private static final int LIMIT = 200;
 
     public static String limitText(String text) {
-        if (text == null) {
+        if (text == null || text.isBlank()) {
             return null;
         }
 
