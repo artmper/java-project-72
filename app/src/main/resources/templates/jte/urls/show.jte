@@ -39,6 +39,7 @@
                 </tr>
             </thead>
             <tbody>
+                @if (page.getChecks() != null)
                 @for (var check : page.getChecks())
                 <tr>
                     <td>${check.getId()}</td>
@@ -49,6 +50,7 @@
                     <td>${check.getCreatedAt().toString()}</td>
                 </tr>
                 @endfor
+                @endif
             </tbody>
         </table>
     `,

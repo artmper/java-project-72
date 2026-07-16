@@ -17,6 +17,7 @@ import java.net.URI;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,7 @@ public class UrlsController {
         List<UrlCheck> checks = UrlCheckRepository.findByUrlId(id);
 
         var page = new UrlPage(url, checks);
+
         String flash = ctx.consumeSessionAttribute("flash");
         page.setFlash(flash);
 
