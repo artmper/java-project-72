@@ -50,7 +50,6 @@ public class UrlChecksController {
             ctx.redirect(NamedRoutes.urlPath(urlId));
 
         } catch (Exception e) {
-            e.printStackTrace();
             ctx.sessionAttribute("flash", "Произошла ошибка при проверке");
             ctx.redirect(NamedRoutes.urlPath(urlId));
         }

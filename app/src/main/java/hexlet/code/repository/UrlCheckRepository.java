@@ -64,12 +64,11 @@ public class UrlCheckRepository extends BaseRepository {
         var sql = """
             SELECT c.*
             FROM url_checks c
-            INNER JOIN (
-                SELECT url_id, MAX(created_at) AS max_date
-                FROM url_checks
-                GROUP BY url_id
-            ) latest ON c.url_id = latest.url_id AND c.created_at = latest.max_date
+            WHERE c.id IN (
+                SELECT MAX(id) FROM url_checks GROUP BY url_id
+            )
             """;
+
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
             var rs = stmt.executeQuery();
