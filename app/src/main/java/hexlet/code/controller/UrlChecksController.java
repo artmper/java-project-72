@@ -47,6 +47,7 @@ public class UrlChecksController {
                     statusCode, title, h1, description, urlId, createdAt
             );
             UrlCheckRepository.save(check);
+            System.out.println("SAVED");
 
             ctx.sessionAttribute("flash", "Страница успешно проверена");
             ctx.redirect(NamedRoutes.urlPath(urlId));
