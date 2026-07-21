@@ -27,7 +27,7 @@ dependencies {
     implementation("com.h2database:h2:2.3.232")
     implementation("com.zaxxer:HikariCP:7.0.2")
     implementation("org.postgresql:postgresql:42.7.4")
-    implementation("com.konghq:unirest-java-core:4.10.0")
+    implementation("com.konghq:unirest-java:3.14.5")
     implementation("org.jsoup:jsoup:1.21.2")
     testImplementation("com.squareup.okhttp3:mockwebserver:5.3.2")
 
