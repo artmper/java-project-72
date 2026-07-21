@@ -22,8 +22,6 @@ public class UrlChecksController {
 
         try {
             var response = Unirest.get(url.getName()).asString();
-            System.out.println("STATUS = " + response.getStatus());
-            System.out.println("BODY = " + response.getBody());
 
             int statusCode = response.getStatus();
 
@@ -47,16 +45,13 @@ public class UrlChecksController {
                     statusCode, title, h1, description, urlId, createdAt
             );
             UrlCheckRepository.save(check);
-            System.out.println("SAVED");
 
             ctx.sessionAttribute("flash", "Страница успешно проверена");
             ctx.redirect(NamedRoutes.urlPath(urlId));
 
         } catch (Exception e) {
-            e.printStackTrace();
             ctx.sessionAttribute("flash", "Произошла ошибка при проверке");
             ctx.redirect(NamedRoutes.urlPath(urlId));
-            throw e;
         }
     }
 }

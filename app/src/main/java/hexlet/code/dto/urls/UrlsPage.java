@@ -13,6 +13,6 @@ import java.util.Map;
 @Getter
 @AllArgsConstructor
 public class UrlsPage extends BasePage {
-    private List<Url> urls;
-    private Map<Long, UrlCheck> lastChecks;
+    private final List<Url> urls;
+    private final Map<Long, UrlCheck> lastChecks;
 }
