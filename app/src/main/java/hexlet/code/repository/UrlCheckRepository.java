@@ -14,7 +14,7 @@ public class UrlCheckRepository extends BaseRepository {
                 "VALUES (?, ?, ?, ?, ?, ?)";
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1, check.getStatusCode());
+            stmt.setString(1, check.getStatusCode());
             stmt.setString(2, StringUtil.limitText(check.getTitle()));
             stmt.setString(3, StringUtil.limitText(check.getH1()));
             stmt.setString(4, check.getDescription());
@@ -43,7 +43,7 @@ public class UrlCheckRepository extends BaseRepository {
 
             while (rs.next()) {
                 var id = rs.getLong("id");
-                var statusCode = rs.getInt("status_code");
+                var statusCode = rs.getString("status_code");
                 var title = rs.getString("title");
                 var h1 = rs.getString("h1");
                 var description = rs.getString("description");
@@ -77,7 +77,7 @@ public class UrlCheckRepository extends BaseRepository {
             Map<Long, UrlCheck> lastChecks = new HashMap<>();
             while (rs.next()) {
                 var id = rs.getLong("id");
-                var statusCode = rs.getInt("status_code");
+                var statusCode = rs.getString("status_code");
                 var title = rs.getString("title");
                 var h1 = rs.getString("h1");
                 var urlId = rs.getLong("url_id");

@@ -42,7 +42,7 @@ public class UrlChecksController {
 
             Timestamp createdAt = new Timestamp(System.currentTimeMillis()); //
             UrlCheck check = new UrlCheck(
-                    statusCode, title, h1, description, urlId, createdAt
+                    String.valueOf(statusCode), title, h1, description, urlId, createdAt
             );
             UrlCheckRepository.save(check);
 
