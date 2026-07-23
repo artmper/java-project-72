@@ -22,12 +22,12 @@
                         <th scope="row">${url.getId()}</th>
                         <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
                         <td>
-                            @if (lastChecks != null && lastChecks.get(url.getId()) != null)
+                            @if (lastChecks != null && lastChecks.get(Long.valueOf(url.getId())) != null)
                                 ${lastChecks.get(url.getId()).getCreatedAt().toString()}
                             @endif
                         </td>
                         <td>
-                            @if (lastChecks != null && lastChecks.get(url.getId()) != null)
+                            @if (lastChecks != null && lastChecks.get(Long.valueOf(url.getId())) != null)
                                 ${lastChecks.get(url.getId()).getStatusCode()}
                             @endif
                         </td>
