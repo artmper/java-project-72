@@ -12,5 +12,5 @@ public class Url {
     @Setter
     private Long id;
     private final String name;
-    private final Timestamp createdAt;
+    private final Timestamp createdAt; // TODO: LocalDateTime или Instance
 }

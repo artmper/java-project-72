@@ -50,7 +50,7 @@ public class UrlsController {
     public static void create(Context ctx) {
         try {
             var urlString = ctx.formParamAsClass("url", String.class).get();
-            var uri = new URI(urlString);
+            var uri = new URI(urlString); //TODO: оставить только создание uri & url в try
             var url = uri.toURL();
             var name = String.format("%s://%s", url.getProtocol(), url.getAuthority()).toLowerCase();
 
@@ -61,8 +61,8 @@ public class UrlsController {
                 return;
             }
 
-            var createdAt = new Timestamp(System.currentTimeMillis());
-            var newUrl = new Url(name, createdAt);
+            var createdAt = new Timestamp(System.currentTimeMillis()); // TODO: время создается в репозитории
+            var newUrl = new Url(name, createdAt); // TODO: сдеалать еще конструктор с 1 параметром
             UrlRepository.save(newUrl);
 
             ctx.sessionAttribute("flash", "Страница успешно добавлена!");

@@ -62,19 +62,19 @@ public class UrlCheckRepository extends BaseRepository {
 
     public static Map<Long, UrlCheck> getLastCheckForUrls() throws SQLException {
         var sql = """
-            SELECT c.*
-            FROM url_checks c
-            WHERE c.id IN (
-                SELECT MAX(id) FROM url_checks GROUP BY url_id
-            )
-            """;
+                SELECT c.*
+                FROM url_checks c
+                INNER JOIN (
+                    SELECT url_id, MAX(created_at) AS max_created
+                    FROM url_checks
+                    GROUP BY url_id
+                ) latest ON c.url_id = latest.url_id AND c.created_at = latest.max_created
+                """;
 
         try (var conn = dataSource.getConnection();
              var stmt = conn.prepareStatement(sql)) {
             var rs = stmt.executeQuery();
-
             Map<Long, UrlCheck> lastChecks = new HashMap<>();
-
             while (rs.next()) {
                 var id = rs.getLong("id");
                 var statusCode = rs.getInt("status_code");
@@ -89,7 +89,6 @@ public class UrlCheckRepository extends BaseRepository {
                 );
                 check.setId(id);
                 lastChecks.put(check.getUrlId(), check);
-
             }
             return lastChecks;
         }
