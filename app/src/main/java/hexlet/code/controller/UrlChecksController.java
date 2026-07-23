@@ -40,7 +40,7 @@ public class UrlChecksController {
                     ? doc.selectFirst("meta[name=description]").attr("content")
                     : null;
 
-            Timestamp createdAt = new Timestamp(System.currentTimeMillis()); //
+            Timestamp createdAt = new Timestamp(System.currentTimeMillis());
             UrlCheck check = new UrlCheck(
                     String.valueOf(statusCode), title, h1, description, urlId, createdAt
             );
