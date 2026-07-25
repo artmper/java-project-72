@@ -12,7 +12,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 public class UrlChecksController {
     public static void create(Context ctx) throws SQLException {
@@ -27,6 +26,7 @@ public class UrlChecksController {
 
             if (statusCode >= 400) {
                 ctx.sessionAttribute("flash", "Произошла ошибка при проверке");
+                ctx.sessionAttribute("flashType", "danger");
                 ctx.redirect(NamedRoutes.urlPath(urlId));
                 return;
             }
@@ -40,17 +40,18 @@ public class UrlChecksController {
                     ? doc.selectFirst("meta[name=description]").attr("content")
                     : null;
 
-            Timestamp createdAt = new Timestamp(System.currentTimeMillis());
             UrlCheck check = new UrlCheck(
-                    String.valueOf(statusCode), title, h1, description, urlId, createdAt
+                    String.valueOf(statusCode), title, h1, description, urlId
             );
             UrlCheckRepository.save(check);
 
             ctx.sessionAttribute("flash", "Страница успешно проверена");
+            ctx.sessionAttribute("flashType", "success");
             ctx.redirect(NamedRoutes.urlPath(urlId));
 
         } catch (Exception e) {
             ctx.sessionAttribute("flash", "Произошла ошибка при проверке");
+            ctx.sessionAttribute("flashType", "danger");
             ctx.redirect(NamedRoutes.urlPath(urlId));
         }
     }

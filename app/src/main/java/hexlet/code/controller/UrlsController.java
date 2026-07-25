@@ -14,11 +14,12 @@ import io.javalin.http.NotFoundResponse;
 
 import java.net.URI;
 
+import java.net.URL;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static io.javalin.rendering.template.TemplateUtil.model;
 
@@ -42,37 +43,45 @@ public class UrlsController {
         var page = new UrlPage(url, checks);
 
         String flash = ctx.consumeSessionAttribute("flash");
+        String flashType = ctx.consumeSessionAttribute("flashType");
         page.setFlash(flash);
+        page.setFlashType(flashType);
 
         ctx.render("urls/show.jte", model("page", page));
     }
 
-    public static void create(Context ctx) {
+    public static void create(Context ctx) throws SQLException {
+        URL url;
         try {
             var urlString = ctx.formParamAsClass("url", String.class).get();
-            var uri = new URI(urlString); //TODO: оставить только создание uri & url в try
-            var url = uri.toURL();
-            var name = String.format("%s://%s", url.getProtocol(), url.getAuthority()).toLowerCase();
+            var uri = new URI(urlString);
+            url = uri.toURL();
 
-            var optionalUrl = UrlRepository.findByName(name);
-            if (optionalUrl.isPresent()) {
-                ctx.sessionAttribute("flash", "Страница уже существует!");
-                ctx.redirect(NamedRoutes.urlPath(optionalUrl.get().getId()));
-                return;
-            }
-
-            var createdAt = new Timestamp(System.currentTimeMillis()); // TODO: время создается в репозитории
-            var newUrl = new Url(name, createdAt); // TODO: сдеалать еще конструктор с 1 параметром
-            UrlRepository.save(newUrl);
-
-            ctx.sessionAttribute("flash", "Страница успешно добавлена!");
-            ctx.redirect(NamedRoutes.urlPath(newUrl.getId()));
         } catch (Exception e) {
             var page = new MainPage();
             page.setFlash("Некорректный URL!");
+            page.setFlashType("danger");
 
             ctx.status(422);
             ctx.render("index.jte", model("page", page));
+            return;
         }
+
+        var name = String.format("%s://%s",Objects.requireNonNull(url).getProtocol(), url.getAuthority()).toLowerCase();
+        var optionalUrl = UrlRepository.findByName(name);
+
+        if (optionalUrl.isPresent()) {
+            ctx.sessionAttribute("flash", "Страница уже существует!");
+            ctx.sessionAttribute("flashType", "warning");
+            ctx.redirect(NamedRoutes.urlPath(optionalUrl.get().getId()));
+            return;
+        }
+
+        var newUrl = new Url(name);
+        UrlRepository.save(newUrl);
+
+        ctx.sessionAttribute("flash", "Страница успешно добавлена!");
+        ctx.sessionAttribute("flashType", "success");
+        ctx.redirect(NamedRoutes.urlPath(newUrl.getId()));
     }
 }

@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class BasePage {
     private String flash;
-    // TODO: тип флэша
+    private String flashType;
 }

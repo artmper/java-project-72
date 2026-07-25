@@ -1,3 +1,4 @@
+@import hexlet.code.util.DTFormatter
 @import hexlet.code.util.NamedRoutes
 @import hexlet.code.dto.urls.UrlsPage
 @param UrlsPage page
@@ -23,7 +24,7 @@
                         <td><a href="${NamedRoutes.urlPath(url.getId())}">${url.getName()}</a></td>
                         <td>
                             @if (lastChecks != null && lastChecks.get(url.getId()) != null)
-                                ${lastChecks.get(url.getId()).getCreatedAt().toString()}
+                                ${DTFormatter.format(lastChecks.get(url.getId()).getCreatedAt())}
                             @endif
                         </td>
                         <td>

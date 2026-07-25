@@ -1,4 +1,5 @@
 @import hexlet.code.dto.urls.UrlPage
+@import hexlet.code.util.DTFormatter
 @import hexlet.code.util.StringUtil
 @param UrlPage page
 
@@ -18,7 +19,7 @@
             </tr>
             <tr>
                 <td>Дата создания</td>
-                <td>${page.getUrl().getCreatedAt().toString()}</td>
+                <td>${DTFormatter.format(page.getUrl().getCreatedAt())}</td>
             </tr>
             </tbody>
         </table>
@@ -47,7 +48,7 @@
                     <td>${check.getH1()}</td>
                     <td>${check.getTitle()}</td>
                     <td>${StringUtil.limitText(check.getDescription())}</td>
-                    <td>${check.getCreatedAt().toString()}</td>
+                    <td>${DTFormatter.format(check.getCreatedAt())}</td>
                 </tr>
                 @endfor
                 @endif
@@ -55,8 +56,18 @@
         </table>
     `,
     flash = @`
-        <div class="alert alert-success" role="alert">
-            ${page.getFlash()}
-        </div>
-    `
+        @if (page.getFlashType().equals("success"))
+            <div class="alert alert-success" role="alert">
+                ${page.getFlash()}
+            </div>
+        @elseif (page.getFlashType().equals("warning"))
+            <div class="alert alert-warning" role="alert">
+                ${page.getFlash()}
+            </div>
+        @elseif (page.getFlashType().equals("danger"))
+            <div class="alert alert-danger" role="alert">
+                ${page.getFlash()}
+            </div>
+        @endif
+        `
 )

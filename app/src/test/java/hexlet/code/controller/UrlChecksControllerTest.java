@@ -17,7 +17,6 @@ import io.javalin.testtools.JavalinTest;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -45,12 +44,12 @@ public class UrlChecksControllerTest {
         UrlCheckRepository.removeAll();
         UrlRepository.removeAll();
 
-        Url url = new Url(baseUrl, new Timestamp(System.currentTimeMillis()));
+        Url url = new Url(baseUrl);
         UrlRepository.save(url);
     }
 
     @Test
-    void testCheckSuccess() throws SQLException {
+    void testCheckSuccess() {
         String html = "<html><head><title>Test Title</title></head>" +
                 "<body><h1>Test H1</h1>" +
                 "<meta name=\"description\" content=\"Test Description\"></body></html>";
@@ -65,7 +64,7 @@ public class UrlChecksControllerTest {
             var checks = UrlCheckRepository.findByUrlId(urlId);
             assertThat(checks).hasSize(1);
             UrlCheck check = checks.getFirst();
-            assertThat(check.getStatusCode()).isEqualTo(200);
+            assertThat(check.getStatusCode()).isEqualTo("200");
             assertThat(check.getTitle()).isEqualTo("Test Title");
             assertThat(check.getH1()).isEqualTo("Test H1");
             assertThat(check.getDescription()).isEqualTo("Test Description");
@@ -73,7 +72,7 @@ public class UrlChecksControllerTest {
     }
 
     @Test
-    void testCheckErrorResponse() throws SQLException {
+    void testCheckErrorResponse() {
         mockServer.enqueue(new MockResponse().setResponseCode(404));
 
         JavalinTest.test(app, (server, client) -> {
@@ -88,7 +87,7 @@ public class UrlChecksControllerTest {
     }
 
     @Test
-    void testCheckTags() throws SQLException {
+    void testCheckTags() {
         String html = "<html><head></head><body></body></html>";
         mockServer.enqueue(new MockResponse().setBody(html).setResponseCode(200));
 
@@ -98,7 +97,7 @@ public class UrlChecksControllerTest {
 
             var checks = UrlCheckRepository.findByUrlId(urlId);
             assertThat(checks).hasSize(1);
-            UrlCheck check = checks.get(0);
+            UrlCheck check = checks.getFirst();
             assertThat(check.getTitle()).isNullOrEmpty();
             assertThat(check.getH1()).isNullOrEmpty();
             assertThat(check.getDescription()).isNullOrEmpty();

@@ -7,9 +7,10 @@ import hexlet.code.util.NamedRoutes;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import io.javalin.http.NotFoundResponse;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -50,7 +51,7 @@ public class UrlsControllerTest {
     @Test
     public void testUrlPage() {
         JavalinTest.test(app, (server, client) -> {
-            var url = new Url("https://io.hexlet.ru", new Timestamp(System.currentTimeMillis()));
+            var url = new Url("https://io.hexlet.ru");
             UrlRepository.save(url);
             var response = client.get(NamedRoutes.urlPath(url.getId()));
 
@@ -88,7 +89,7 @@ public class UrlsControllerTest {
 
     @Test
     public void testExistingUrl() throws SQLException {
-        var existingUrl = new Url("https://ya.ru", new Timestamp(System.currentTimeMillis()));
+        var existingUrl = new Url("https://ya.ru");
         UrlRepository.save(existingUrl);
 
         JavalinTest.test(app, (server, client) -> {
@@ -107,7 +108,10 @@ public class UrlsControllerTest {
     @Test
     public void testCreateInvalidUrl() {
         JavalinTest.test(app, (server, client) -> {
-            var requestBody = "url=not-valid-url";
+            RequestBody requestBody = new FormBody.Builder()
+                    .add("url", "not-valid-url")
+                    .build();
+
             var response = client.post(NamedRoutes.urlsPath(), requestBody);
 
             assertThat(response.code()).isEqualTo(422);
