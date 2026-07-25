@@ -5,7 +5,6 @@ import hexlet.code.util.StringUtil;
 
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.util.*;
 
 
@@ -79,6 +78,7 @@ public class UrlCheckRepository extends BaseRepository {
              var stmt = conn.prepareStatement(sql)) {
             var rs = stmt.executeQuery();
             Map<Long, UrlCheck> lastChecks = new HashMap<>();
+
             while (rs.next()) {
                 var id = rs.getLong("id");
                 var statusCode = rs.getString("status_code");
