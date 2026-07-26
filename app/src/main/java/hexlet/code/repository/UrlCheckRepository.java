@@ -4,7 +4,6 @@ import hexlet.code.model.UrlCheck;
 import hexlet.code.util.StringUtil;
 
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
 
 
@@ -15,7 +14,7 @@ public class UrlCheckRepository extends BaseRepository {
                 VALUES (?, ?, ?, ?, ?)
                 """;
         try (var conn = dataSource.getConnection();
-             var stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             var stmt = conn.prepareStatement(sql, new String[]{"id", "created_at"})) {
             stmt.setString(1, check.getStatusCode());
             stmt.setString(2, StringUtil.limitText(check.getTitle()));
             stmt.setString(3, StringUtil.limitText(check.getH1()));
@@ -26,8 +25,8 @@ public class UrlCheckRepository extends BaseRepository {
             var generatedKeys = stmt.getGeneratedKeys();
 
             if (generatedKeys.next()) {
-                check.setId(generatedKeys.getLong(1));
-                check.setCreatedAt(generatedKeys.getTimestamp(2).toInstant());
+                check.setId(generatedKeys.getLong("id"));
+                check.setCreatedAt(generatedKeys.getTimestamp("created_at").toInstant());
             } else {
                 throw new SQLException("DB have not returned an id after saving an entity");
             }

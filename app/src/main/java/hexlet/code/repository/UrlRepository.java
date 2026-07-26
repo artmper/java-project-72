@@ -3,7 +3,6 @@ package hexlet.code.repository;
 import hexlet.code.model.Url;
 
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,14 +11,14 @@ public class UrlRepository extends BaseRepository {
     public static void save(Url url) throws SQLException {
         String sql = "INSERT INTO urls (name) VALUES (?)";
         try (var conn = dataSource.getConnection();
-             var stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+             var stmt = conn.prepareStatement(sql, new String[]{"id", "created_at"})) {
             stmt.setString(1, url.getName());
             stmt.executeUpdate();
             var generatedKeys = stmt.getGeneratedKeys();
 
             if (generatedKeys.next()) {
-                url.setId(generatedKeys.getLong(1));
-                url.setCreatedAt(generatedKeys.getTimestamp(2).toInstant());
+                url.setId(generatedKeys.getLong("id"));
+                url.setCreatedAt(generatedKeys.getTimestamp("created_at").toInstant());
             } else {
                 throw new SQLException("DB have not returned an id after saving an entity");
             }
