@@ -26,7 +26,7 @@
 
         <h2 class="fs-4 mt-5">Проверки</h2>
         <form class="mb-3" method="post" action="/urls/${page.getUrl().getId()}/checks">
-            <input type="submit" value="Запустить проверку">
+            <button type="submit" class="btn btn-primary">Запустить проверку</button>
         </form>
         <table class="table table-hover table-bordered mb-3" data-test="checks">
             <thead>
@@ -56,18 +56,8 @@
         </table>
     `,
     flash = @`
-        @if (page.getFlashType().equals("success"))
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-${page.getFlashType()}" role="alert">
                 ${page.getFlash()}
             </div>
-        @elseif (page.getFlashType().equals("warning"))
-            <div class="alert alert-warning" role="alert">
-                ${page.getFlash()}
-            </div>
-        @elseif (page.getFlashType().equals("danger"))
-            <div class="alert alert-danger" role="alert">
-                ${page.getFlash()}
-            </div>
-        @endif
-        `
+    `
 )

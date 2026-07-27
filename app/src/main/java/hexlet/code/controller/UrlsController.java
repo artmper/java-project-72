@@ -10,11 +10,12 @@ import hexlet.code.repository.UrlRepository;
 import hexlet.code.util.NamedRoutes;
 
 import io.javalin.http.Context;
+import io.javalin.http.HttpStatus;
 import io.javalin.http.NotFoundResponse;
 
 import java.net.URI;
-
 import java.net.URL;
+
 import java.sql.SQLException;
 
 import java.util.List;
@@ -56,13 +57,12 @@ public class UrlsController {
             var urlString = ctx.formParamAsClass("url", String.class).get();
             var uri = new URI(urlString);
             url = uri.toURL();
-
         } catch (Exception e) {
             var page = new MainPage();
             page.setFlash("Некорректный URL!");
             page.setFlashType("danger");
 
-            ctx.status(422);
+            ctx.status(HttpStatus.UNPROCESSABLE_CONTENT);
             ctx.render("index.jte", model("page", page));
             return;
         }
