@@ -48,7 +48,9 @@ public class App {
         BaseRepository.dataSource = dataSource;
 
         var app = Javalin.create(config -> {
-            config.bundledPlugins.enableDevLogging();
+            if (!getDatabaseUrl().contains("mem:")) {
+                config.bundledPlugins.enableDevLogging();
+            }
             config.fileRenderer(new JavalinJte(createTemplateEngine()));
         });
 
