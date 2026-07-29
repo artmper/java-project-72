@@ -1,4 +1,4 @@
-FROM gradle:8.12.1-jdk21
+FROM gradle:8.12.1-jdk21 AS builder
 
 WORKDIR /java-project-72
 
