@@ -8,4 +8,10 @@ WORKDIR /java-project-72/app
 
 RUN ./gradlew shadowJar --no-daemon
 
-CMD ["java", "-jar", "build/libs/app-1.0-SNAPSHOT-all.jar"]
+FROM eclipse-temurin:21-jre-alpine
+
+WORKDIR /app
+
+COPY --from=builder /java-project-72/app/build/libs/app-1.0-SNAPSHOT-all.jar app.jar
+
+CMD ["java", "-jar", "app.jar"]
